@@ -9,7 +9,7 @@ import { Usuario } from "./types/Usuario";
 type Vista = "inicio" | "registro" | "login";
 
 function App() {
-    const [vista, setVista] = useState<Vista>("inicio");
+    const [vista, setVista] = useState<Vista>("login");
     const [usuario, setUsuario] = useState<Usuario | null>(() => {
         const usuarioGuardado = localStorage.getItem("rumbo-usuario");
         return usuarioGuardado ? JSON.parse(usuarioGuardado) : null;
@@ -24,12 +24,12 @@ function App() {
 
     function cerrarSesion() {
         setSesionActiva(false);
-        setVista("inicio");
+        setVista("login");
     }
 
     return (
         <div className="app-shell">
-            <Navbar vista={vista} sesionActiva={sesionActiva} onNavigate={setVista} onLogout={cerrarSesion} />
+            {sesionActiva && <Navbar vista={vista} sesionActiva={sesionActiva} onNavigate={setVista} onLogout={cerrarSesion} />}
             <main>
                 {vista === "inicio" && <Inicio sesionActiva={sesionActiva} onNavigate={setVista} />}
                 {vista === "registro" && <Registro onRegistered={guardarUsuario} />}
