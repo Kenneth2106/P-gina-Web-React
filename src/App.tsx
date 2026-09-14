@@ -36,8 +36,8 @@ function App() {
                 {vista === "login" && <Login usuarioRegistrado={usuario} onLogin={() => { setSesionActiva(true); setVista("inicio"); }} onNavigate={setVista} />}
             </main>
             <footer className="site-footer">
-                <span>RUMBO / viajes con intención</span>
-                <span>Proyecto académico en React + TypeScript</span>
+                <span>RUMBO / fútbol con intención</span>
+                <span>Entrena. Juega. Evoluciona.</span>
             </footer>
         </div>
     );
