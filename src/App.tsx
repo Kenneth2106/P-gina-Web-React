@@ -10,7 +10,9 @@ const App: React.FC = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/inicio" element={<Inicio />} />
+        <Route path="/inicio" element={<Inicio sesionActiva={false} onNavigate={function (vista: "inicio" | "registro" | "login"): void {
+          throw new Error("Function not implemented.");
+        } } />} />
         <Route path="/registro" element={<Registro />} />
       </Routes>
     </BrowserRouter>
