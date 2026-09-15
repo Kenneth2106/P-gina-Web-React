@@ -1,59 +1,203 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const savedUser = localStorage.getItem("usuario");
+  const userData = savedUser ? JSON.parse(savedUser) : null;
+
+  const isDarkPage = location.pathname === "/login" || location.pathname === "/registro";
+
+  const handleNavClick = (hash: string) => {
+    if (location.pathname !== "/" && location.pathname !== "/inicio") {
+      navigate("/" + hash);
+    } else {
+      const element = document.querySelector(hash);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("usuario");
+    navigate("/login");
+  };
 
   return (
-    <nav
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 100,
+    <header className="topbar-container" style={{
+      position: isDarkPage ? "fixed" : "sticky",
+      top: 0,
+      left: 0,
+      right: 0,
+      zIndex: 100,
+      background: isDarkPage ? "rgba(5, 11, 20, 0.85)" : "var(--paper, #f2eee5)",
+      backdropFilter: "blur(10px)",
+      borderBottom: isDarkPage ? "1px solid rgba(0, 255, 204, 0.2)" : "1px solid rgba(23, 35, 29, 0.15)",
+      transition: "all 0.3s ease",
+    }}>
+      <div style={{
         display: "flex",
-        justifyContent: "space-between",
         alignItems: "center",
-        padding: "12px 30px",
-        background: "rgba(0,0,0,0.7)",
-        backdropFilter: "blur(8px)",
-        borderBottom: "1px solid #00ffcc33",
-      }}
-    >
-      <span style={{ color: "#00ffcc", fontWeight: "bold", fontSize: "20px" }}>
-        ⚽ FútbolApp
-      </span>
-      <div style={{ display: "flex", gap: "12px" }}>
+        justifyContent: "space-between",
+        height: "76px",
+        padding: "0 5vw",
+        maxWidth: "1400px",
+        margin: "0 auto",
+      }}>
+        {/* Logo / Rumbo */}
         <button
           onClick={() => navigate("/")}
           style={{
-            background: "transparent",
-            border: "1px solid #00ffcc",
-            borderRadius: "5px",
-            color: "#00ffcc",
-            padding: "6px 14px",
-            cursor: "pointer",
-          }}
-        >
-          Login
-        </button>
-        <button
-          onClick={() => navigate("/registro")}
-          style={{
-            background: "#00ffcc",
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            background: "none",
             border: "none",
-            borderRadius: "5px",
-            color: "#000",
-            fontWeight: "bold",
-            padding: "6px 14px",
             cursor: "pointer",
+            padding: 0,
           }}
         >
-          Registro
+          <div style={{
+            width: "36px",
+            height: "36px",
+            borderRadius: "50%",
+            background: "#d7ed61",
+            color: "#17231d",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontFamily: "'DM Mono', monospace",
+            fontWeight: "bold",
+            fontSize: "13px",
+            boxShadow: isDarkPage ? "0 0 10px #d7ed61aa" : "none",
+          }}>
+            R/
+          </div>
+          <span style={{
+            color: isDarkPage ? "#ffffff" : "#17231d",
+            fontWeight: 700,
+            fontSize: "22px",
+            letterSpacing: "-0.06em",
+            fontFamily: "'Space Grotesk', sans-serif",
+          }}>
+            rumbo
+          </span>
         </button>
+
+        {/* Links de Navegación */}
+        <nav style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "28px",
+        }}>
+          <button
+            onClick={() => handleNavClick("#planes")}
+            className={`nav-link ${location.hash === "#planes" ? "active" : ""}`}
+            style={{
+              background: "none",
+              border: "none",
+              color: isDarkPage ? "#e2e8f0" : "#17231d",
+              fontSize: "13px",
+              cursor: "pointer",
+              fontWeight: 500,
+            }}
+          >
+            Explorar
+          </button>
+
+          <button
+            onClick={() => handleNavClick("#filosofia")}
+            className="nav-link"
+            style={{
+              background: "none",
+              border: "none",
+              color: isDarkPage ? "#e2e8f0" : "#17231d",
+              fontSize: "13px",
+              cursor: "pointer",
+              fontWeight: 500,
+            }}
+          >
+            Nuestra mirada
+          </button>
+
+          {userData ? (
+            <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+              <span style={{
+                color: isDarkPage ? "#00ffcc" : "#e96e39",
+                fontFamily: "'DM Mono', monospace",
+                fontSize: "11px",
+                textTransform: "uppercase",
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+              }}>
+                <i style={{
+                  width: "7px",
+                  height: "7px",
+                  borderRadius: "50%",
+                  background: "#78a044",
+                  display: "inline-block",
+                }} />
+                {userData.name}
+              </span>
+              <button
+                onClick={handleLogout}
+                style={{
+                  background: "transparent",
+                  border: isDarkPage ? "1px solid #ff0055" : "1px solid #e96e39",
+                  color: isDarkPage ? "#ff0055" : "#e96e39",
+                  padding: "8px 14px",
+                  borderRadius: "4px",
+                  fontSize: "12px",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                }}
+              >
+                Cerrar sesión
+              </button>
+            </div>
+          ) : (
+            <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+              <button
+                onClick={() => navigate("/login")}
+                style={{
+                  background: "none",
+                  border: "none",
+                  color: isDarkPage ? "#00ffcc" : "#17231d",
+                  fontSize: "13px",
+                  cursor: "pointer",
+                  fontWeight: 500,
+                }}
+              >
+                Iniciar sesión
+              </button>
+              <button
+                onClick={() => navigate("/registro")}
+                style={{
+                  background: isDarkPage ? "#00ffcc" : "#17231d",
+                  color: isDarkPage ? "#050e18" : "#f2eee5",
+                  border: "none",
+                  padding: "10px 18px",
+                  borderRadius: "4px",
+                  fontSize: "12px",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  transition: "0.2s ease",
+                }}
+              >
+                Crear cuenta <span>↗</span>
+              </button>
+            </div>
+          )}
+        </nav>
       </div>
-    </nav>
+    </header>
   );
 };
 

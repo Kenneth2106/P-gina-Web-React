@@ -1,20 +1,23 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./components/Login.tsx";
+import Navbar from "./components/Navbar.tsx";
 import Inicio from "./components/Inicio.tsx";
+import Login from "./components/Login.tsx";
 import Registro from "./components/Registro.tsx";
-
+import "./App.css";
 
 const App: React.FC = () => {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/inicio" element={<Inicio sesionActiva={false} onNavigate={function (vista: "inicio" | "registro" | "login"): void {
-          throw new Error("Function not implemented.");
-        } } />} />
-        <Route path="/registro" element={<Registro />} />
-      </Routes>
+      <div className="app-shell">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Inicio />} />
+          <Route path="/inicio" element={<Inicio />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/registro" element={<Registro />} />
+        </Routes>
+      </div>
     </BrowserRouter>
   );
 };
