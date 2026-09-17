@@ -49,7 +49,7 @@ function Registro() {
     localStorage.setItem("usuario", JSON.stringify(usuario));
 
     alert("Usuario registrado correctamente");
-    navigate("/");
+    navigate("/login");
   }
 
   return (

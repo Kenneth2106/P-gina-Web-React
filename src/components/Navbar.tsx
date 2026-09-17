@@ -8,7 +8,7 @@ const Navbar: React.FC = () => {
   const savedUser = localStorage.getItem("usuario");
   const userData = savedUser ? JSON.parse(savedUser) : null;
 
-  const isDarkPage = location.pathname === "/login" || location.pathname === "/registro";
+  const isDarkPage = true; // Todo el sitio ahora usa un tema oscuro
 
   const handleNavClick = (hash: string) => {
     if (location.pathname !== "/" && location.pathname !== "/inicio") {
@@ -23,7 +23,7 @@ const Navbar: React.FC = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("usuario");
-    navigate("/login");
+    navigate("/inicio");
   };
 
   return (
@@ -93,36 +93,6 @@ const Navbar: React.FC = () => {
           alignItems: "center",
           gap: "28px",
         }}>
-          <button
-            onClick={() => handleNavClick("#planes")}
-            className={`nav-link ${location.hash === "#planes" ? "active" : ""}`}
-            style={{
-              background: "none",
-              border: "none",
-              color: isDarkPage ? "#e2e8f0" : "#17231d",
-              fontSize: "13px",
-              cursor: "pointer",
-              fontWeight: 500,
-            }}
-          >
-            Explorar
-          </button>
-
-          <button
-            onClick={() => handleNavClick("#filosofia")}
-            className="nav-link"
-            style={{
-              background: "none",
-              border: "none",
-              color: isDarkPage ? "#e2e8f0" : "#17231d",
-              fontSize: "13px",
-              cursor: "pointer",
-              fontWeight: 500,
-            }}
-          >
-            Nuestra mirada
-          </button>
-
           {userData ? (
             <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
               <span style={{

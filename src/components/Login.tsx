@@ -15,7 +15,7 @@ const Login: React.FC = () => {
 
       if (usuario === userData.email && password === userData.password) {
         alert("Inicio de sesión exitoso");
-        navigate("/inicio");
+        navigate("/dashboard");
       } else {
         alert("Usuario o contraseña incorrectos");
       }
