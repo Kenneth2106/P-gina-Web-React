@@ -17,11 +17,11 @@ const Dashboard: React.FC = () => {
       setNewPlayer("");
     }
   };
-
+//elimina un jugador de la lista según su posición en el arreglo
   const handleRemovePlayer = (index: number) => {
     setPlayers(players.filter((_: string, i: number) => i !== index));
   };
-
+//valida cuántos jugadores hay inscritos antes de registrar un torneo
   const handleRegisterTournament = (e: React.FormEvent) => {
     e.preventDefault();
     if (players.length >= 8 && players.length <= 10) {

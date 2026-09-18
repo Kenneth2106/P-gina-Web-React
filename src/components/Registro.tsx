@@ -4,16 +4,20 @@ import { useNavigate } from "react-router-dom";
 import BgMundial from "./BgMundial.tsx";
 
 function Registro() {
+  // Estado para guardar datos del usuario
   const [usuario, setUsuario] = useState<Usuario>({
     name: "",
     email: "",
     password: "",
   });
 
+  // Estado para confirmar contraseña
   const [confirmPassword, setConfirmarPassword] = useState("");
+  // Estado para medir la seguridad de la contraseña
   const [passwordStrength, setPasswordStrength] = useState(0);
   const navigate = useNavigate();
 
+  // Función que calcula la seguridad de la contraseña
   const calcularSeguridad = (password: string): number => {
     let score = 0;
     if (password.length >= 8) score += 25;
@@ -23,51 +27,53 @@ function Registro() {
     return score;
   };
 
+  // Función para registrar usuario
   function registrarUsuario(e: React.FormEvent) {
     e.preventDefault();
 
+    // Validaciones básicas
     if (usuario.name.trim() === "") {
       alert("El nombre es obligatorio");
       return;
     }
-
     if (usuario.email.trim() === "") {
       alert("El correo es obligatorio");
       return;
     }
-
     if (usuario.password.length < 8) {
       alert("La contraseña debe tener mínimo 8 caracteres");
       return;
     }
-
     if (usuario.password !== confirmPassword) {
       alert("Las contraseñas no coinciden");
       return;
     }
 
+    // Recupera usuarios guardados en localStorage
     const savedUsers = localStorage.getItem("usuarios_registrados");
     const usersList: Usuario[] = savedUsers ? JSON.parse(savedUsers) : [];
 
+    // Verifica si ya existe un usuario con ese correo
     const userExists = usersList.some(
       (u) => u.email.toLowerCase() === usuario.email.toLowerCase()
     );
-
     if (userExists) {
       alert("Ya existe un usuario registrado con este correo");
       return;
     }
 
+    // Guarda el nuevo usuario
     usersList.push(usuario);
     localStorage.setItem("usuarios_registrados", JSON.stringify(usersList));
 
     alert("Usuario registrado correctamente");
-    navigate("/login");
+    navigate("/login"); // Redirige al login
   }
 
   return (
     <div
       style={{
+        // Fondo y estilos generales de la página de registro
         position: "relative",
         background: "linear-gradient(135deg, #0f2027, #203a43, #2c5364)",
         minHeight: "100vh",
@@ -79,10 +85,12 @@ function Registro() {
         overflow: "hidden",
       }}
     >
+      {/* Fondo animado mundial */}
       <BgMundial />
 
       <div
         style={{
+          // Caja central del formulario
           position: "relative",
           zIndex: 1,
           background: "rgba(0,0,0,0.8)",
@@ -92,11 +100,14 @@ function Registro() {
           width: "350px",
         }}
       >
+        {/* Título */}
         <h2 style={{ textAlign: "center", marginBottom: "20px", color: "#00ffcc" }}>
           ⚽ Crear cuenta
         </h2>
 
+        {/* Formulario de registro */}
         <form onSubmit={registrarUsuario}>
+          {/* Input nombre */}
           <input
             type="text"
             placeholder="Nombre"
@@ -113,6 +124,7 @@ function Registro() {
             }}
           />
 
+          {/* Input correo */}
           <input
             type="email"
             placeholder="Correo"
@@ -129,6 +141,7 @@ function Registro() {
             }}
           />
 
+          {/* Input contraseña con barra de seguridad */}
           <input
             type="password"
             placeholder="Contraseña"
@@ -149,6 +162,7 @@ function Registro() {
             }}
           />
 
+          {/* Barra de progreso de seguridad */}
           <div style={{ marginTop: "10px" }}>
             <progress value={passwordStrength} max="100" style={{ width: "100%" }}></progress>
             <span style={{ marginLeft: "10px" }}>
@@ -156,6 +170,7 @@ function Registro() {
             </span>
           </div>
 
+          {/* Input confirmar contraseña */}
           <input
             type="password"
             placeholder="Confirmar contraseña"
@@ -172,6 +187,7 @@ function Registro() {
             }}
           />
 
+          {/* Botón de registro */}
           <button
             type="submit"
             style={{

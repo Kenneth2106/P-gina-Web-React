@@ -3,15 +3,19 @@ import { useNavigate } from "react-router-dom";
 import BgEstadio from "./BgEstadio.tsx";
 
 const Login: React.FC = () => {
+  // Estados para guardar correo y contraseña
   const [usuario, setUsuario] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  // Función para manejar el inicio de sesión
   const handleLogin = () => {
+    // Recupera usuarios guardados en localStorage
     const savedUsers = localStorage.getItem("usuarios_registrados");
     const legacyUser = localStorage.getItem("usuario");
     let usersList: any[] = savedUsers ? JSON.parse(savedUsers) : [];
 
+    // Si existe un usuario antiguo y no hay lista, lo migra
     if (legacyUser && usersList.length === 0) {
       try {
         const parsedLegacy = JSON.parse(legacyUser);
@@ -20,13 +24,16 @@ const Login: React.FC = () => {
       } catch (e) {}
     }
 
+    // Valida si hay usuarios registrados
     if (usersList.length > 0) {
+      // Busca coincidencia de correo y contraseña
       const matchedUser = usersList.find(
         (u) =>
           u.email.toLowerCase() === usuario.trim().toLowerCase() &&
           u.password === password
       );
 
+      // Si encuentra usuario válido → guarda sesión y redirige
       if (matchedUser) {
         localStorage.setItem("usuario_activo", JSON.stringify(matchedUser));
         alert(`¡Bienvenido de nuevo, ${matchedUser.name}!`);
@@ -35,6 +42,7 @@ const Login: React.FC = () => {
         alert("Usuario o contraseña incorrectos");
       }
     } else {
+      // Si no hay usuarios registrados
       alert("No hay usuarios registrados, por favor crea una cuenta primero");
     }
   };
@@ -42,6 +50,7 @@ const Login: React.FC = () => {
   return (
     <div
       style={{
+        // Fondo y estilos generales de la página de login
         position: "relative",
         background: "linear-gradient(135deg, #070e17, #0d1b2a, #1a2a6c)",
         minHeight: "100vh",
@@ -53,10 +62,12 @@ const Login: React.FC = () => {
         overflow: "hidden",
       }}
     >
+      {/* Fondo animado del estadio */}
       <BgEstadio />
 
       <div
         style={{
+          // Caja central del formulario
           position: "relative",
           zIndex: 1,
           background: "rgba(0,0,0,0.8)",
@@ -66,10 +77,12 @@ const Login: React.FC = () => {
           width: "350px",
         }}
       >
+        {/* Título del formulario */}
         <h2 style={{ textAlign: "center", marginBottom: "20px", color: "#00ffcc" }}>
           🏟️ Acceso
         </h2>
 
+        {/* Input de correo */}
         <input
           type="text"
           placeholder="Correo"
@@ -86,6 +99,7 @@ const Login: React.FC = () => {
           }}
         />
 
+        {/* Input de contraseña */}
         <input
           type="password"
           placeholder="Contraseña"
@@ -102,6 +116,7 @@ const Login: React.FC = () => {
           }}
         />
 
+        {/* Botón para iniciar sesión */}
         <button
           onClick={handleLogin}
           style={{
@@ -120,6 +135,7 @@ const Login: React.FC = () => {
           Iniciar Sesión
         </button>
 
+        {/* Link para ir al registro */}
         <p style={{ marginTop: "20px", textAlign: "center" }}>
           ¿No tienes cuenta?
           <button
