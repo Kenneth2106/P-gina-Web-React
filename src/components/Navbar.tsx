@@ -1,29 +1,17 @@
 import React from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
-  const location = useLocation();
 
-  const savedUser = localStorage.getItem("usuario");
-  const userData = savedUser ? JSON.parse(savedUser) : null;
+  const activeUserRaw = localStorage.getItem("usuario_activo");
+  const userData = activeUserRaw ? JSON.parse(activeUserRaw) : null;
 
   const isDarkPage = true; // Todo el sitio ahora usa un tema oscuro
 
-  const handleNavClick = (hash: string) => {
-    if (location.pathname !== "/" && location.pathname !== "/inicio") {
-      navigate("/" + hash);
-    } else {
-      const element = document.querySelector(hash);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-      }
-    }
-  };
-
   const handleLogout = () => {
-    localStorage.removeItem("usuario");
-    navigate("/inicio");
+    localStorage.removeItem("usuario_activo");
+    navigate("/login");
   };
 
   return (
@@ -43,7 +31,7 @@ const Navbar: React.FC = () => {
         alignItems: "center",
         justifyContent: "space-between",
         height: "76px",
-        padding: "0 5vw",
+        padding: "0 4vw",
         maxWidth: "1400px",
         margin: "0 auto",
       }}>
@@ -91,10 +79,25 @@ const Navbar: React.FC = () => {
         <nav style={{
           display: "flex",
           alignItems: "center",
-          gap: "28px",
+          gap: "16px",
         }}>
           {userData ? (
-            <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+              <button
+                onClick={() => navigate("/dashboard")}
+                style={{
+                  background: "rgba(0, 255, 204, 0.15)",
+                  border: "1px solid #00ffcc",
+                  color: "#00ffcc",
+                  padding: "8px 14px",
+                  borderRadius: "4px",
+                  fontSize: "12px",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                }}
+              >
+                📊 Dashboard
+              </button>
               <span style={{
                 color: isDarkPage ? "#00ffcc" : "#e96e39",
                 fontFamily: "'DM Mono', monospace",
@@ -131,6 +134,21 @@ const Navbar: React.FC = () => {
             </div>
           ) : (
             <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+              <button
+                onClick={() => navigate("/dashboard")}
+                style={{
+                  background: "transparent",
+                  border: "1px solid #00ffcc",
+                  color: "#00ffcc",
+                  padding: "8px 14px",
+                  borderRadius: "4px",
+                  fontSize: "12px",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                }}
+              >
+                Dashboard
+              </button>
               <button
                 onClick={() => navigate("/login")}
                 style={{

@@ -46,7 +46,20 @@ function Registro() {
       return;
     }
 
-    localStorage.setItem("usuario", JSON.stringify(usuario));
+    const savedUsers = localStorage.getItem("usuarios_registrados");
+    const usersList: Usuario[] = savedUsers ? JSON.parse(savedUsers) : [];
+
+    const userExists = usersList.some(
+      (u) => u.email.toLowerCase() === usuario.email.toLowerCase()
+    );
+
+    if (userExists) {
+      alert("Ya existe un usuario registrado con este correo");
+      return;
+    }
+
+    usersList.push(usuario);
+    localStorage.setItem("usuarios_registrados", JSON.stringify(usersList));
 
     alert("Usuario registrado correctamente");
     navigate("/login");

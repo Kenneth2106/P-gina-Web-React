@@ -8,13 +8,28 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    const savedUser = localStorage.getItem("usuario");
+    const savedUsers = localStorage.getItem("usuarios_registrados");
+    const legacyUser = localStorage.getItem("usuario");
+    let usersList: any[] = savedUsers ? JSON.parse(savedUsers) : [];
 
-    if (savedUser) {
-      const userData = JSON.parse(savedUser);
+    if (legacyUser && usersList.length === 0) {
+      try {
+        const parsedLegacy = JSON.parse(legacyUser);
+        usersList.push(parsedLegacy);
+        localStorage.setItem("usuarios_registrados", JSON.stringify(usersList));
+      } catch (e) {}
+    }
 
-      if (usuario === userData.email && password === userData.password) {
-        alert("Inicio de sesión exitoso");
+    if (usersList.length > 0) {
+      const matchedUser = usersList.find(
+        (u) =>
+          u.email.toLowerCase() === usuario.trim().toLowerCase() &&
+          u.password === password
+      );
+
+      if (matchedUser) {
+        localStorage.setItem("usuario_activo", JSON.stringify(matchedUser));
+        alert(`¡Bienvenido de nuevo, ${matchedUser.name}!`);
         navigate("/dashboard");
       } else {
         alert("Usuario o contraseña incorrectos");

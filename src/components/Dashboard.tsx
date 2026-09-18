@@ -43,6 +43,10 @@ const Dashboard: React.FC = () => {
     }
   };
 
+  const handleSubscribePlan = (planName: string, price: string) => {
+    alert(`¡Inscripción simulada exitosa! Te has inscrito al plan ${planName} por $${price} COP.`);
+  };
+
   const cardStyle = {
     background: "rgba(0,0,0,0.6)",
     padding: "30px",
@@ -83,20 +87,46 @@ const Dashboard: React.FC = () => {
           Planes de Entrenamiento
         </h2>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "20px", marginTop: "20px" }}>
-          <div style={{ background: "#111", padding: "20px", borderRadius: "8px", border: "1px solid #333" }}>
-            <h3 style={{ color: "#d7ed61" }}>Diario</h3>
-            <p style={{ fontSize: "14px", color: "#ccc" }}>Acceso a una sesión individual de entrenamiento asistido.</p>
-            <p style={{ fontSize: "20px", fontWeight: "bold", marginTop: "15px" }}>$15.000 COP</p>
+          <div style={{ background: "#111", padding: "20px", borderRadius: "8px", border: "1px solid #333", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+            <div>
+              <h3 style={{ color: "#d7ed61" }}>Diario</h3>
+              <p style={{ fontSize: "14px", color: "#ccc" }}>Acceso a una sesión individual de entrenamiento asistido.</p>
+              <p style={{ fontSize: "20px", fontWeight: "bold", marginTop: "15px" }}>$15.000 COP</p>
+            </div>
+            <button
+              onClick={() => handleSubscribePlan("Diario", "15.000")}
+              style={{ ...buttonStyle, background: "#d7ed61", color: "#111", marginTop: "15px", width: "100%" }}
+            >
+              Inscribir Plan Diario
+            </button>
           </div>
-          <div style={{ background: "#111", padding: "20px", borderRadius: "8px", border: "1px solid #333" }}>
-            <h3 style={{ color: "#00ffcc" }}>Semanal</h3>
-            <p style={{ fontSize: "14px", color: "#ccc" }}>Entrenamiento intensivo programado durante una semana.</p>
-            <p style={{ fontSize: "20px", fontWeight: "bold", marginTop: "15px" }}>$40.000 COP</p>
+
+          <div style={{ background: "#111", padding: "20px", borderRadius: "8px", border: "1px solid #333", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+            <div>
+              <h3 style={{ color: "#00ffcc" }}>Semanal</h3>
+              <p style={{ fontSize: "14px", color: "#ccc" }}>Entrenamiento intensivo programado durante una semana.</p>
+              <p style={{ fontSize: "20px", fontWeight: "bold", marginTop: "15px" }}>$40.000 COP</p>
+            </div>
+            <button
+              onClick={() => handleSubscribePlan("Semanal", "40.000")}
+              style={{ ...buttonStyle, background: "#00ffcc", color: "#111", marginTop: "15px", width: "100%" }}
+            >
+              Inscribir Plan Semanal
+            </button>
           </div>
-          <div style={{ background: "#111", padding: "20px", borderRadius: "8px", border: "1px solid #333" }}>
-            <h3 style={{ color: "#e96e39" }}>Mensual</h3>
-            <p style={{ fontSize: "14px", color: "#ccc" }}>Acceso ilimitado al plan mensual de entrenamiento regular.</p>
-            <p style={{ fontSize: "20px", fontWeight: "bold", marginTop: "15px" }}>$100.000 COP</p>
+
+          <div style={{ background: "#111", padding: "20px", borderRadius: "8px", border: "1px solid #333", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+            <div>
+              <h3 style={{ color: "#e96e39" }}>Mensual</h3>
+              <p style={{ fontSize: "14px", color: "#ccc" }}>Acceso ilimitado al plan mensual de entrenamiento regular.</p>
+              <p style={{ fontSize: "20px", fontWeight: "bold", marginTop: "15px" }}>$100.000 COP</p>
+            </div>
+            <button
+              onClick={() => handleSubscribePlan("Mensual", "100.000")}
+              style={{ ...buttonStyle, background: "#e96e39", color: "#fff", marginTop: "15px", width: "100%" }}
+            >
+              Inscribir Plan Mensual
+            </button>
           </div>
         </div>
       </section>
